@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Service Fusion Technical Test</string>
+    <string name="page_title_create_person">Add Person</string>
+
+    <string name="firebase_url">https://radiant-fire-1922.firebaseio.com/</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_done">Done</string>
+
+    <string name="label_first_name">First Name</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="label_birthdate">Birth Date</string>
+    <string name="label_zip_code">Zip Code</string>
+
+    <string name="error_missing_first_name">First name required</string>
+    <string name="error_missing_last_name">Last name required</string>
+    <string name="error_missing_birthdate">Birth date required</string>
+    <string name="error_invalid_birthdate">Enter birth date in mm/dd/yyyy format</string>
+    <string name="error_missing_zip_code">Zip code required</string>
+    <string name="error_invalid_zip_code">Please enter a five digit zip code</string>
+
+    <string name="dialog_message_discard_changes">Discard Changes?</string>
+    <string name="dialog_button_discard">Discard</string>
+
+    <!-- AlertDialogFragment defaults -->
+    <string name="dialog_button_ok">Ok</string>
+    <string name="dialog_button_cancel">Cancel</string>
+
+
+</resources>
