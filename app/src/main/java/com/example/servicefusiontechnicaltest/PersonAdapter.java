@@ -9,12 +9,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 /**
+ * Sort a list of Person objects and display them, oldest at the top
+ *
  * Created by Chad Schultz on 1/30/2016.
  */
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder> {
@@ -38,9 +42,19 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         Collections.sort(mItems, new Comparator<Person>() {
             @Override
             public int compare(Person lhs, Person rhs) {
-                return lhs.getBirthDate().compareTo(rhs.getBirthDate());
+                try {
+                    Date lDate = DateUtils.getDateFormat().parse(lhs.getBirthDate());
+                    Date rDate = DateUtils.getDateFormat().parse(rhs.getBirthDate());
+                    return lDate.compareTo(rDate);
+                } catch (ParseException pe) {
+                    // Fail fast - there should never be incorrectly formatted dates in the database
+                    // if there are, we need to know about it
+                    throw new RuntimeException("Invalid dates--cannot compare " + lhs.getBirthDate()
+                            + " and " + rhs.getBirthDate(), pe);
+                }
             }
         });
+        int i = 0;
     }
 
     @Override
