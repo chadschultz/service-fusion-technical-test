@@ -1,11 +1,17 @@
 package com.example.servicefusiontechnicaltest;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * Object to represent people.
+ *
  * Created by Chad Schultz on 1/30/2016.
  */
-public class Person {
+public class Person implements Serializable {
+    private static final long serialVersionUID = 7832243914440535763L;
+
+    private String mId; // Firebase key, internal use only
     private String mFirstName;
     private String mLastName;
     private String mBirthDate;
@@ -19,6 +25,14 @@ public class Person {
         mLastName = lastName;
         mBirthDate = birthDate;
         mZipCode = zipCode;
+    }
+
+    public String getId() {
+        return mId;
+    }
+
+    public void setId(String id) {
+        mId = id;
     }
 
     public String getFirstName() {

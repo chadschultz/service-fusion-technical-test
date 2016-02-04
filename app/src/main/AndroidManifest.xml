@@ -2,9 +2,11 @@
 <manifest package="com.example.servicefusiontechnicaltest"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/service_fusion"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -17,9 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".CreatePersonActivity" android:label="@string/page_title_create_person"></activity>
+        <activity android:name=".CreateEditPersonActivity" android:parentActivityName=".MainActivity">
+        </activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

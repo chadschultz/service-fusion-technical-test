@@ -3,27 +3,25 @@ package com.example.servicefusiontechnicaltest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Display a list of Person objects, any of which can be opened for the view detail/update/delete
+ * view. The FAB adds a new Person
+ */
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
@@ -52,13 +50,18 @@ public class MainActivity extends AppCompatActivity {
 
         mFirebase = new Firebase(getString(R.string.firebase_url));
 
+        /**
+         * Get an initial list, and get updates whenever the database changes.
+         */
         mFirebase.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final List<Person> people = new ArrayList<Person>();
+                final List<Person> people = new ArrayList<>();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    people.add(postSnapshot.getValue(Person.class));
+                    Person person = postSnapshot.getValue(Person.class);
+                    person.setId(postSnapshot.getKey());
+                    people.add(person);
                 }
                 mAdapter = new PersonAdapter(people);
                 mRecyclerView.setAdapter(mAdapter);
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CreatePersonActivity.class));
+                startActivity(new Intent(MainActivity.this, CreateEditPersonActivity.class));
             }
         });
     }

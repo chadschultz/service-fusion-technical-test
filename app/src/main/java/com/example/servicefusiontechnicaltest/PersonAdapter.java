@@ -1,6 +1,7 @@
 package com.example.servicefusiontechnicaltest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,16 +25,34 @@ import java.util.List;
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder> {
     private List<Person> mItems;
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public ViewHolderOnClickListener mListener;
         public TextView mNameTextView;
         public TextView mBirthDateTextView;
         public TextView mZipCodeTextView;
 
-        public ViewHolder(final View v) {
+        public ViewHolder(final View v, ViewHolderOnClickListener listener) {
             super(v);
+            mListener = listener;
+            v.setOnClickListener(this); // need to do this for every clickable view
             mNameTextView = (TextView) v.findViewById(R.id.name_textview);
             mBirthDateTextView = (TextView) v.findViewById(R.id.birthdate_textview);
             mZipCodeTextView = (TextView) v.findViewById(R.id.zip_code_textview);
+        }
+
+        @Override
+        public void onClick(View v) {
+            // Can check the view for class or other identifying criteria and
+            // call different listener methods based on that
+            mListener.onClickItemPosition(v, getAdapterPosition());
+        }
+
+        /**
+         * This pattern for handling RecyclerView clicks from
+         * http://stackoverflow.com/a/24933117/967131
+         */
+        public interface ViewHolderOnClickListener {
+            void onClickItemPosition(View v, int position);
         }
     }
 
@@ -54,14 +73,21 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
                 }
             }
         });
-        int i = 0;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_person, parent, false);
-        return new ViewHolder(v);
+        return new ViewHolder(v, new ViewHolder.ViewHolderOnClickListener() {
+            @Override
+            public void onClickItemPosition(View v, int position) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, CreateEditPersonActivity.class);
+                intent.putExtra(CreateEditPersonActivity.EXTRA_PERSON, mItems.get(position));
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

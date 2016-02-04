@@ -65,7 +65,7 @@ public class AlertDialogFragment extends DialogFragment {
         // If no labels are provided, we'll assume there's a positive button, with a default label
         String positiveButtonLabel = getArguments().getString(ARG_POSITIVE_BUTTON_LABEL);
         if (TextUtils.isEmpty(positiveButtonLabel)) {
-            positiveButtonLabel = getString(R.string.dialog_button_ok);
+            positiveButtonLabel = getString(android.R.string.ok);
         }
         builder.setPositiveButton(positiveButtonLabel, new DialogInterface.OnClickListener() {
             @Override
@@ -76,7 +76,11 @@ public class AlertDialogFragment extends DialogFragment {
 
         // If no negative button label is provided, we'll assume it's a one-button dialog
         String negativeButtonLabel = getArguments().getString(ARG_NEGATIVE_BUTTON_LABEL);
-        if (!TextUtils.isEmpty(negativeButtonLabel)) {
+        if (negativeButtonLabel != null) {
+            if (TextUtils.isEmpty(negativeButtonLabel)) {
+                // Negative button label passed as an empty string? Use system default
+                negativeButtonLabel = getString(android.R.string.cancel);
+            }
             builder.setNegativeButton(negativeButtonLabel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -99,9 +103,9 @@ public class AlertDialogFragment extends DialogFragment {
      * tell which AlertDialogFragment had a button click.
      */
     public interface AlertDialogFragmentListener {
-        public void onPositiveDialogButtonClick(String tag);
+        void onPositiveDialogButtonClick(String tag);
 
-        public void onNegativeDialogButtonClick(String tag);
+        void onNegativeDialogButtonClick(String tag);
 
         // Could extend for neutral, three-button dialogs, but it's unnecessary complexity here
     }

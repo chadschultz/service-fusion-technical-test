@@ -9,6 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
+ * Horizontal line between rows in a linear-style RecyclerView, in an attempt to match
+ * Google design guidelines and practice in their own apps (such as Gmail)
+ *
  * From http://stackoverflow.com/a/27037230/967131
  */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
